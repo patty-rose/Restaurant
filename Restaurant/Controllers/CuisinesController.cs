@@ -29,5 +29,59 @@ namespace Restaurant.Controllers
       ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "CuisineType");
       return View();
     }
+
+    public ActionResult Create()
+      {
+        ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "CuisineType");
+        return View();
+      }//Creating a ViewBag.CuisineId property as a Select List object ensures we are creating new items within Cuisines that already exist.A SelectList will provide a list of the data needed to create an html <select> list of all the cuisines from our database. The displayed text of each <option> will be the Cuisines CuisineType property, and the value of the <option> will be the Cuisines CuisineId.
+      //selectList arguments-- 1. the data that will populate <option> elements (list of cuisines from our DB) 2. the value of every <option> element (Cuisine's CuisineId) 3. displayed text (name of Cuisine)
+
+      [HttpPost]
+    public ActionResult Create(Item item)//takes Item as argument
+    {
+      _db.Items.Add(item);//adds Item to the ItemsDbSet
+      _db.SaveChanges();//save changes to database object called DB or _db
+      return RedirectToAction("Index");//return Index view
+    }//Add() is a method we run on our DBSet property of our DBContext, while SaveChanges() is a method we run on the DBContext itself.
+    //Together, they update the DBSet and then sync those changes to the database which the DBContext represents.
+
+    public ActionResult Details(int id)//matches "id" object that we created using ActionLink in Views/Items/Index
+    {
+      Item thisItem = _db.Items.FirstOrDefault(item => item.ItemId == id);//LINQ method with a lambda-- start looking at _db.Items(our items table), then find any items where the ItemId matches our id argument
+      return View(thisItem);
+    }
+
+    //GET action routes to form page for updating item
+    public ActionResult Edit(int id)
+    {
+      Item thisItem = _db.Items.FirstOrDefault(item => item.ItemId == id);
+      ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
+      return View(thisItem); //finding specific item and passing it into view
+    }
+
+    [HttpPost] //POST actually updates item
+    public ActionResult Edit(Item item)
+    {
+      _db.Entry(item).State = EntityState.Modified;//We find and update all of the properties of the item we are editing by passing the item (our route parameter) itself into the Entry() method. Then we need to update its State property to EntityState.Modified. This is so Entity knows that the entry has been modified, as it is not explicitly tracking it (we never actually retrieved the item from the database).
+      _db.SaveChanges();//once entry's state is marked as modified we can save and then redirect to Index view
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      var thisItem = _db.Items.FirstOrDefault(item => item.ItemId == id);
+      return View(thisItem);
+    }
+    //POST action is named DeleteConfirmed instead of Delete since both GET + POST action methods take id as a parameter. C# will not allow us to have two methods with the same signature(method name and parameters). The POST attribute is not considered part of the method signature 
+
+    [HttpPost, ActionName("Delete")] //Note that our annotation includes [ActionName("Delete")]. This is so we can still utilize the proper Delete action even though we've named our method DeleteConfirmed.
+    public ActionResult DeleteConfirmed(int id)
+    {
+      var thisItem = _db.Items.FirstOrDefault(item => item.ItemId == id);
+      _db.Items.Remove(thisItem);//built in Remove method
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }

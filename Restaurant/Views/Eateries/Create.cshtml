@@ -1,0 +1,23 @@
+@{
+  Layout = "_Layout";
+}
+
+@model ToDoList.Models.Item//model directive tells our view what type of data will be passed into the view from the controller route. namespace.Models.class
+
+<h4>Add a new task</h4>
+@using (Html.BeginForm())//What this using statement does is add a closing HTML </form> tag to the form. Alternatively, instead of creating a using block, you can call the Html.EndForm() helper method to close the </form> tag
+//BeginForm() sends an HTTP POST request by default to the current URL. In other words, this form will send a POST request to the Create() route.
+{
+  @Html.LabelFor(model => model.Description)
+  @Html.TextBoxFor(model => model.Description)
+
+  @Html.LabelFor(model => model.Category)
+  @Html.DropDownList("CategoryId")
+  @*give DropDownList() the string name of a ViewBag property of the type SelectList. Since we saved our SelectList as ViewBag.CategoryId, we give DropDownList() the string "CategoryId". This helper method will create an html dropdown select list out of the SelectList object.  *@
+
+  <input type="submit" value="Add new item" class="btn btn-default"/>
+}
+<hr />
+<p>@Html.ActionLink("Show all items", "Index")</p>
+
+@* Note - CategoryId may seem like a bad name for a SelectList object, but the reason we chose that name is because that will be the name attribute on the <select> tag created. You can check this in your browser DevTools Inspector and see <select id="CategoryId" name="CategoryId">. We could use a different name like ViewBag.CategoryList and you'd get <select id="CategoryList" name="CategoryList">. The problem with that is when we submit our form it will use the name attribute to know what property of the Item object to assign a value, so it will try to create an Item with a CategoryList property, which will not work. *@

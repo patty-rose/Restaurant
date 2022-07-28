@@ -2,20 +2,20 @@
   Layout = "_Layout";
 }
 
-@model ToDoList.Models.Category
+@model Restaurant.Models.Cuisine
 
 <h2>Edit</h2>
 
-<h4>Edit this category: @Html.DisplayFor(model => model.Name)</h4>
+<p>Edit this cuisine: @Html.DisplayFor(model => model.CuisineType)</p>
 
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.CategoryId)
+    @Html.HiddenFor(model => model.CuisineId)
 
-    @Html.LabelFor(model => model.Name)
-    @Html.EditorFor(model => model.Name)
+    @Html.LabelFor(model => model.CuisineType)
+    @Html.EditorFor(model => model.CuisineType)
 
     <input type="submit" value="Save" />
 }
 <hr />
-<p>@Html.ActionLink("Back to list", "Index")</p>
+<p>@Html.ActionLink("Back To Cuisine Type List", "Index")</p>

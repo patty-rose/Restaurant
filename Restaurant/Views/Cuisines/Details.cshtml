@@ -2,25 +2,20 @@
   Layout = "_Layout";
 }
 
-@model ToDoList.Models.Category
-@using ToDoList.Models
+@model Restaurant.Models.Cuisine
+@using Restaurant.Models
 
-<h2>Category Details</h2>
+<h2>Cuisine Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)<h3>
-  
-@* @if (@Model.Count == 0)
-{
-  <h3>No items have been added yet!</h3>
-}  *@
+<p>@Html.DisplayNameFor(model => model.CuisineType): @Html.DisplayFor(model => model.CuisineType)<p>
 
 <ul>
-  @foreach(Item item in Model.Items)
+  @foreach(Eatery eatery in Model.Eateries)
   {
-    <li>@Html.ActionLink($"{item.Description}", "Details", "Items", new { id = item.ItemId })</li>
+    <li>@Html.ActionLink($"{eatery.EateryName}", "Details", "Eateries", new { id = eatery.EateryId })</li>
   }
 <hr />
-<p>@Html.ActionLink("Add task", "Create", "Items", new { id = Model.CategoryId })</p>
-<p>@Html.ActionLink("Edit Category", "Edit", new { id = Model.CategoryId })</p>
-<p>@Html.ActionLink("Delete Category", "Delete", new { id = Model.CategoryId })</p>
+<p>@Html.ActionLink("Add resttaurant", "Create", "Eateries", new { id = Model.CuisineId })</p>
+<p>@Html.ActionLink("Edit Cuisine", "Edit", new { id = Model.CuisineId })</p>
+<p>@Html.ActionLink("Delete Cuisine", "Delete", new { id = Model.CuisineId })</p>
 <p>@Html.ActionLink("Back to list", "Index")</p>

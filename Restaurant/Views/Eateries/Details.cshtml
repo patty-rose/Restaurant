@@ -2,13 +2,12 @@
   Layout = "_Layout";
 }
 
-@model ToDoList.Models.Item//needed so view can reference the model
+@model Restaurant.Models.Eatery
 
-<h2>Item Details</h2>
+<h2>Eatery Details</h2>
 <hr />
-<h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)<h3>
-<h3>Category: @Html.DisplayFor(model => model.Category.Name)<h3>
-<hr />
-<p>@Html.ActionLink("Edit Item", "Edit", new { id = Model.ItemId })</p>
-<p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.ItemId })</p>
-<p>@Html.ActionLink("Back to list", "Index")</p>
+<h3>@Html.DisplayNameFor(model => model.EateryName): @Html.DisplayFor(model => model.EateryName)<h3>
+
+<p>@Html.ActionLink("Back To Eatery List", "Index")</p>
+<p>@Html.ActionLink("Edit Eatery", "Edit", new { id = Model.EateryId })</p>
+<p>@Html.ActionLink("Delete Eatery", "Delete", new { id = Model.EateryId })</p>

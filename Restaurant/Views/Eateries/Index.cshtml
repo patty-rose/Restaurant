@@ -2,11 +2,25 @@
   Layout = "_Layout";
 }
 
-@using Restaurant.Models
+@using Restaurant.Models;
+@model List<Restaurant.Models.Eatery>;
 
-<title>Welcome to Eateries!</title>
-<h1>Please select an Eatery Option!<h1>
-<p>@Html.ActionLink("See Eatery Options", "Index")</p>
+<h2>Eateries list:</h2>
+
+@if (@Model.Count == 0)
+{
+  <h3>No eateries have been added yet!</h3>
+} 
+
+<ul>
+  @foreach(Eatery eatery in Model)
+  {
+    <li>@Html.ActionLink($"{eatery.EateryName}", "Details", new { id = eatery.EateryId }) | @eatery.Cuisine.CuisineType</li>
+  }
+</ul>
+<hr />
+
+<p>@Html.ActionLink("Add an eatery", "Create")</p>
 <p>@Html.ActionLink("Return to Homepage", "Index", "Home")</p>
 
 <!-- The ActionLink() method is called on @Html. It takes two required parameters as well as an optional third parameter.
